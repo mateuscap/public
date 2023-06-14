@@ -1,0 +1,20 @@
+version: v1.0
+name: Initial Pipeline
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu2004
+blocks:
+  - name: Dummy block
+    task:
+      jobs:
+        - name: 'Job #1'
+          commands:
+            - echo "this block can be skipped"
+    skip:
+      when: branch =~ '.*'
+promotions:
+  - name: Pipeline A
+    pipeline_file: pipeline_2.yml
+  - name: Pipeline B
+    pipeline_file: pipeline_3.yml
