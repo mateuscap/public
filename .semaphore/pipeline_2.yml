@@ -15,5 +15,5 @@ blocks:
             - 'git clone https://github.com/mateuscap/public.git'
             - cd public/
             - git checkout dummy-branch
-            - git merge rebase-through-promotion
+            - git merge origin/rebase-through-promotion
             - git push
