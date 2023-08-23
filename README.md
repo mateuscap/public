@@ -7,6 +7,6 @@ Using Parameterized Promotions to create parallel pipelines, using different env
 
 ![Image](image/image1.png "Example Workflow")
 
-### Dummy
+### Rebase Through Promotion branch
 
-just a dummy
+Rebase and merge a branch through an auto-promotion
