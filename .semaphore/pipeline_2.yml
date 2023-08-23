@@ -12,3 +12,9 @@ blocks:
           commands:
             - echo $env_var1
             - echo $env_var2
+            - 'git clone https://github.com/mateuscap/public.git'
+            - cd public/
+            - git checkout rebase-through-promotion
+            - git rebase master
+            - git ceckout master
+            - git merge rebase-through-promotion

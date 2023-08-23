@@ -31,19 +31,3 @@ promotions:
           default_value: value_B
           description: ''
           name: env_var2
-  - name: Pipeline B
-    pipeline_file: pipeline_3.yml
-    auto_promote:
-      when: branch =~ '.*'
-    parameters:
-      env_vars:
-        - required: true
-          options: []
-          default_value: value_one
-          description: ''
-          name: env_var1
-        - required: true
-          options: []
-          default_value: value_2
-          description: ''
-          name: env_var2
