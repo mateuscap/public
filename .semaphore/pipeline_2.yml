@@ -14,7 +14,6 @@ blocks:
             - echo $env_var2
             - 'git clone https://github.com/mateuscap/public.git'
             - cd public/
-            - git checkout rebase-through-promotion
-            - git rebase master
-            - git checkout master
+            - git checkout dummy-branch
             - git merge rebase-through-promotion
+            - git push
