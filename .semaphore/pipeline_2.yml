@@ -14,6 +14,8 @@ blocks:
             - echo $env_var2
             - 'git clone https://github.com/mateuscap/public.git'
             - cd public/
+            - git config --global user.email "mcapistrano@dummy.com"
+            - git config --global user.name "Mateus"
             - git checkout dummy-branch
             - git merge origin/rebase-through-promotion
             - git push
