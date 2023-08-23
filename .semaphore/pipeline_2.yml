@@ -16,5 +16,5 @@ blocks:
             - cd public/
             - git checkout rebase-through-promotion
             - git rebase master
-            - git ceckout master
+            - git checkout master
             - git merge rebase-through-promotion
