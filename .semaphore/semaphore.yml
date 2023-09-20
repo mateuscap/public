@@ -1,0 +1,35 @@
+version: v1.0
+name: Initial Pipeline
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu2004
+blocks:
+  - name: Runs when tag starts with "2023"
+    task:
+      jobs:
+        - name: 'Job #1'
+          commands:
+            - echo "tag starts with 2023"
+    run:
+      when: tag =~ '^2023'
+    dependencies: []
+  - name: Runs on any tag or through change_in
+    run:
+      when: 'tag =~ ''.*'' OR change_in(''/path_test/'', {on_tags: false, pipeline_file: ''ignore''})'
+    dependencies:
+      - Runs when tag starts with "2023"
+    task:
+      jobs:
+        - name: 'Job #1'
+          commands:
+            - echo "runs on any tag"
+  - name: Run when tag starts with "2023" or through change_in
+    run:
+      when: 'tag =~ ''^2023'' OR change_in(''/path_test/'', {on_tags: false, pipeline_file: ''ignore''})'
+    dependencies: []
+    task:
+      jobs:
+        - name: 'Job #1'
+          commands:
+            - echo "starts with 2023"
