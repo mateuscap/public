@@ -1,0 +1,41 @@
+version: v1.0
+name: Caching Java
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu2004
+execution_time_limit:
+  minutes: 10
+global_job_config:
+  prologue:
+    commands:
+      - lsb_release -a
+blocks:
+  - name: Block two
+    dependencies: []
+    task:
+      jobs:
+        - name: 'Job #1'
+          execution_time_limit:
+            minutes: 3
+          commands:
+            - checkout
+            - sem-version python 3.11
+            - python -V
+            - checkout
+            - echo $SEMAPHORE_GIT_BRANCH
+            - 'curl -H "Authorization: Token $git_token" -d "name=Secrets&pipeline_id=$SEMAPHORE_PIPELINE_ID&BRANCH=$SEMAPHORE_GIT_BRANCH&override=true" -X POST  "https://mateuscap.semaphoreci.com/api/v1alpha/promotions"'
+      secrets:
+        - name: git_token
+promotions:
+  - name: Secrets
+    pipeline_file: pipeline_11.yml
+    parameters:
+      env_vars:
+        - required: true
+          options:
+            - master
+            - stage
+          default_value: master
+          description: ''
+          name: BRANCH
