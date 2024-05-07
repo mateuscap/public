@@ -8,6 +8,6 @@ blocks:
   - name: 'Block #1 - mateuspc90'
     task:
       jobs:
-        - name: 'mateuspc90'
+        - name: mateuspc90
           commands:
             - checkout
