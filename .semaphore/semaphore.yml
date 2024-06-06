@@ -26,4 +26,4 @@ blocks:
         - name: 'Job #1'
           commands:
             - echo "Test2">test.txt
-            - artifact push workflow test.txt
+            - if artifact push workflow test.txt; then echo "Command succeeded."; else echo "Command failed."; fi
