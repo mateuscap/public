@@ -11,19 +11,9 @@ blocks:
         - name: 'Job #1'
           commands:
             - checkout
-            - echo "Test">test.txt
-            - artifact push workflow test.txt
+            - retry --times 3 --sleep 1 nvm use || retry --times 3 --sleep 1 nvm install -b
+      prologue:
+        commands:
+          - sed -i '1i source $NVM_DIR/nvm.sh;' .toolbox/retry
+          - sed -i '1i export NVM_DIR=$HOME/.nvm;' .toolbox/retry
     dependencies: []
-  - name: Repost Artifact?
-    dependencies:
-      - push artifact
-    task:
-      agent:
-        machine:
-          type: e1-standard-4
-          os_image: ubuntu2004
-      jobs:
-        - name: 'Job #1'
-          commands:
-            - echo "Test2">test.txt
-            - if artifact push workflow test.txt; then echo "Command succeeded."; else echo "Command failed."; fi
