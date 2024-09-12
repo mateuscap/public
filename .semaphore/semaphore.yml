@@ -1,19 +1,27 @@
 version: v1.0
-name: Initial Pipeline
+name: Pipeline 1
 agent:
   machine:
     type: e1-standard-2
     os_image: ubuntu2004
 blocks:
-  - name: push artifact
+  - name: Runs only in PRs
     task:
       jobs:
-        - name: 'Job #1'
+        - name: 'Check if PR description contains [skip ci] comment'
           commands:
-            - checkout
-            - retry --times 3 --sleep 1 nvm use || retry --times 3 --sleep 1 nvm install -b
-      prologue:
-        commands:
-          - sed -i '1i source $NVM_DIR/nvm.sh;' .toolbox/retry
-          - sed -i '1i export NVM_DIR=$HOME/.nvm;' .toolbox/retry
+            - 'pr_data=$(curl -L -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $sept6_token" -H "X-GitHub-Api-Version: 2022-11-28" https://api.github.com/repos/$SEMAPHORE_GIT_PR_SLUG/pulls/$SEMAPHORE_GIT_PR_NUMBER)'
+            - '[[ $pr_data != *''[skip ci]''* ]] || return 130'
+      secrets:
+        - name: git_token
     dependencies: []
+    run:
+      when: pull_request =~ '.*'
+  - name: 'Block #2'
+    dependencies:
+      - Runs only in PRs
+    task:
+      jobs:
+        - name: Regular Block
+          commands:
+            - echo "Run commands in this block/Job"
