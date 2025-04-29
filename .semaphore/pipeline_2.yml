@@ -4,6 +4,9 @@ agent:
   machine:
     type: e1-standard-2
     os_image: ubuntu2004
+  containers:
+    - name: main
+      image: 'semaphoreci/${{parameters.DOCKER_TAG}}'
 blocks:
   - name: 'Block #1'
     task:
@@ -11,4 +14,3 @@ blocks:
         - name: '${{parameters.DOCKER_TAG}}'
           commands:
             - echo $DOCKER_TAG
-            - 'echo ${{parameters.DOCKER_TAG}}'
