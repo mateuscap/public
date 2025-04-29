@@ -1,5 +1,5 @@
 version: v1.0
-name: Pipeline 11
+name: Pipeline 2
 agent:
   machine:
     type: e1-standard-2
@@ -8,8 +8,8 @@ blocks:
   - name: 'Block #1'
     task:
       jobs:
-        - name: 'Job #1'
+        - name: '${{parameters.DOCKER_TAG}}'
           commands:
-            - echo $name
-      secrets:
-        - name: 'parameterized-${{parameters.BRANCH}}'
+            - echo $DOCKER_TAG
+            - 'echo ${{parameters.DOCKER_TAG}}'
+

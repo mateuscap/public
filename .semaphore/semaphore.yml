@@ -2,18 +2,23 @@ version: v1.0
 name: Initial Pipeline
 agent:
   machine:
-    type: e1-standard-2
-    os_image: ubuntu2004
+    type: e2-standard-2
+    os_image: ubuntu2204
 blocks:
-  - name: push artifact
+  - name: Let's Promote
     task:
       jobs:
         - name: 'Job #1'
           commands:
-            - checkout
-            - retry --times 3 --sleep 1 nvm use || retry --times 3 --sleep 1 nvm install -b
-      prologue:
-        commands:
-          - sed -i '1i source $NVM_DIR/nvm.sh;' .toolbox/retry
-          - sed -i '1i export NVM_DIR=$HOME/.nvm;' .toolbox/retry
-    dependencies: []
+            - tag_name="TAG_NAME"
+            - 'curl -H "Authorization: Token $api_token"  -d "name=Promotion Name&pipeline_id=$SEMAPHORE_PIPELINE_ID&DOCKER_TAG=$tag_name&override=true" -X POST  "https://mateuscap.semaphoreci.com/api/v1alpha/promotions"'
+      secrets:
+        - name: API_TOKEN
+promotions:
+  - name: Promotion Name
+    pipeline_file: pipeline_2.yml
+    parameters:
+      env_vars:
+        - required: true
+          default_value: no auto-promotion
+          name: DOCKER_TAG
