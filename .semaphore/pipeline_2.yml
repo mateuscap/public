@@ -12,4 +12,3 @@ blocks:
           commands:
             - echo $DOCKER_TAG
             - 'echo ${{parameters.DOCKER_TAG}}'
-

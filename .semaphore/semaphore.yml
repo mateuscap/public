@@ -10,8 +10,8 @@ blocks:
       jobs:
         - name: 'Job #1'
           commands:
-            - tag_name="TAG_NAME"
-            - 'curl -H "Authorization: Token $api_token"  -d "name=Promotion Name&pipeline_id=$SEMAPHORE_PIPELINE_ID&DOCKER_TAG=$tag_name&override=true" -X POST  "https://mateuscap.semaphoreci.com/api/v1alpha/promotions"'
+            - tag_string="TAG_STRING"
+            - 'curl -H "Authorization: Token $api_token"  -d "name=Promotion Name&pipeline_id=$SEMAPHORE_PIPELINE_ID&DOCKER_TAG=$tag_string&override=true" -X POST  "https://mateuscap.semaphoreci.com/api/v1alpha/promotions"'
       secrets:
         - name: API_TOKEN
 promotions:
