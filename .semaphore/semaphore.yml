@@ -11,7 +11,7 @@ blocks:
         - name: 'Job #1'
           commands:
             - '#tag_string="ubuntu:20.04"'
-            - ': "${tag_string:=latest}"'
+            - ': "${tag_string:=ubuntu:22.04}"'
             - 'curl -H "Authorization: Token $api_token"  -d "name=Promotion Name&pipeline_id=$SEMAPHORE_PIPELINE_ID&DOCKER_TAG=$tag_string&override=true" -X POST  "https://mateuscap.semaphoreci.com/api/v1alpha/promotions"'
       secrets:
         - name: API_TOKEN
