@@ -2,18 +2,22 @@ version: v1.0
 name: Initial Pipeline
 agent:
   machine:
-    type: e1-standard-2
+    type: f1-standard-2
     os_image: ubuntu2004
+global_job_config:
+  epilogue:
+    always:
+      commands:
+        - test-results command-metrics report.md
+        - test-results resource-metrics report.md
+        - artifact push job -d .semaphore/REPORT.md report.md
 blocks:
-  - name: push artifact
+  - name: Report test
     task:
       jobs:
         - name: 'Job #1'
           commands:
             - checkout
-            - retry --times 3 --sleep 1 nvm use || retry --times 3 --sleep 1 nvm install -b
-      prologue:
-        commands:
-          - sed -i '1i source $NVM_DIR/nvm.sh;' .toolbox/retry
-          - sed -i '1i export NVM_DIR=$HOME/.nvm;' .toolbox/retry
+            - sleep 10
+            - echo "exit"
     dependencies: []
