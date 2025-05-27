@@ -11,6 +11,7 @@ global_job_config:
         - test-results command-metrics report.md
         - test-results resource-metrics report.md
         - artifact push job -d .semaphore/REPORT.md report.md
+        - artifact push workflow -d .semaphore/REPORT.md report.md
 blocks:
   - name: Report test
     task:
