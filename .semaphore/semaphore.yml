@@ -4,14 +4,6 @@ agent:
   machine:
     type: a2-standard-4
     os_image: macos-xcode16
-global_job_config:
-  epilogue:
-    always:
-      commands:
-        - test-results command-metrics report.md
-        - test-results resource-metrics report.md
-        - artifact push job -d .semaphore/REPORT.md report.md
-        - artifact push workflow -d .semaphore/REPORT.md report.md
 blocks:
   - name: Download iOS 18.4 simulator
     task:
