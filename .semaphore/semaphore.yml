@@ -1,24 +1,37 @@
 version: v1.0
-name: Initial Pipeline
+name: Pipeline One
 agent:
   machine:
-    type: f1-standard-2
-    os_image: ubuntu2004
+    type: e2-standard-2
+    os_image: ubuntu2204
 global_job_config:
   epilogue:
     always:
       commands:
-        - test-results command-metrics report.md
         - test-results resource-metrics report.md
+        - test-results command-metrics report.md
         - artifact push job -d .semaphore/REPORT.md report.md
         - artifact push workflow -d .semaphore/REPORT.md report.md
 blocks:
-  - name: Report test
+  - name: 'Block #1'
     task:
       jobs:
-        - name: 'Job #1'
+        - name: Helmfile store
           commands:
-            - checkout
-            - sleep 10
-            - echo "exit"
+            - export VERSION="1.1.2"
+            - 'curl -L https://github.com/helmfile/helmfile/releases/download/v${VERSION}/helmfile_${VERSION}_linux_amd64.tar.gz -o helmfile.tar.gz'
+            - tar -xzf helmfile.tar.gz
+            - 'cache store helmfile_${VERSION} helmfile'
+      env_vars: []
     dependencies: []
+  - name: 'Block #2'
+    dependencies:
+      - 'Block #1'
+    task:
+      jobs:
+        - name: Helmfile restore
+          commands:
+            - export VERSION="1.1.2"
+            - 'cache restore helmfile_${VERSION}'
+            - sudo mv helmfile /usr/bin/
+            - helmfile --version
