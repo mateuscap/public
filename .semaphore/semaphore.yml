@@ -16,22 +16,17 @@ blocks:
   - name: 'Block #1'
     task:
       jobs:
-        - name: Helmfile store
+        - name: Hello Job
           commands:
-            - export VERSION="1.1.2"
-            - 'curl -L https://github.com/helmfile/helmfile/releases/download/v${VERSION}/helmfile_${VERSION}_linux_amd64.tar.gz -o helmfile.tar.gz'
-            - tar -xzf helmfile.tar.gz
-            - 'cache store helmfile_${VERSION} helmfile'
+            - echo "Hello world!"
       env_vars: []
     dependencies: []
-  - name: 'Block #2'
-    dependencies:
-      - 'Block #1'
-    task:
-      jobs:
-        - name: Helmfile restore
-          commands:
-            - export VERSION="1.1.2"
-            - 'cache restore helmfile_${VERSION}'
-            - sudo mv helmfile /usr/bin/
-            - helmfile --version
+promotions:
+  - name: Prod Promotion
+    pipeline_file: pipeline_5.yml
+    auto_promote:
+      when: branch = 'queues'
+  - name: Dev Promotion
+    pipeline_file: pipeline_6.yml
+    auto_promote:
+      when: branch = 'queues'

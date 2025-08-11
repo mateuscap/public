@@ -1,0 +1,17 @@
+version: v1.0
+name: Pipeline 6
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu2004
+queue:
+  name: Dev queue
+  scope: project
+blocks:
+  - name: Dev Block 1
+    task:
+      jobs:
+        - name: 'Job #1 - Dev'
+          commands:
+            - echo "job 1"
+            - sleep 30
