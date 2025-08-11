@@ -13,5 +13,5 @@ blocks:
       jobs:
         - name: 'Job #1 - Dev'
           commands:
-            - echo "job 1"
+            - echo "Dev job"
             - sleep 30
